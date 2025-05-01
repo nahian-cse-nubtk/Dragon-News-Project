@@ -4,25 +4,19 @@ import { AuthContext } from "../provider/AuthProvider";
 
 const Register = () => {
   const { createUser, setUser } = use(AuthContext);
-  const [error, setError] = useState({
-    name: "",
-    registration: "",
-    email: "",
-    password: "",
-  });
+  const [nameError, setNameError] = useState("");
+
   const handleRegister = (e) => {
     e.preventDefault();
     console.log(e.target);
     const form = e.target;
     const name = form.name.value;
-
     if (name.length < 5) {
-      setError({ ...error, name: "name must be 5 character long" });
+      setNameError("Name should be more then 5 character");
       return;
     } else {
-      setError({ ...error, name: "" });
+      setNameError("");
     }
-
     const photo = form.photo.value;
     const email = form.email.value;
     const password = form.password.value;
@@ -57,7 +51,8 @@ const Register = () => {
               placeholder="Name"
               required
             />
-            {error.name && <p className="text-red-400 text-xs">{error.name}</p>}
+
+            {nameError && <p className="text-xs text-error">{nameError}</p>}
 
             {/* Photo URl  */}
             <label className="label">Photo URl </label>

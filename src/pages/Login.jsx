@@ -3,8 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../provider/AuthProvider";
 
 const Login = () => {
-  const { signIn } = use(AuthContext);
   const [error, setError] = useState("");
+  const { signIn } = use(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   console.log(location);
@@ -17,14 +17,14 @@ const Login = () => {
     signIn(email, password)
       .then((result) => {
         const user = result.user;
-        setError("");
         console.log(user);
         navigate(`${location.state ? location.state : "/"}`);
       })
       .catch((error) => {
-        // const errorCode = error.code;
-        const errorMessage = error.message;
-        setError(errorMessage);
+        const errorCode = error.code;
+        // const errorMessage = error.message;
+        // alert(errorCode, errorMessage);
+        setError(errorCode);
       });
   };
   return (
@@ -56,6 +56,7 @@ const Login = () => {
             <div>
               <a className="link link-hover">Forgot password?</a>
             </div>
+
             {error && <p className="text-red-400 text-xs">{error}</p>}
 
             <button type="submit" className="btn btn-neutral mt-4">
