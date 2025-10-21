@@ -1,6 +1,6 @@
 import React, { use, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
-import { AuthContext } from "../provider/AuthProvider";
+import  AuthContext from "../provider/AuthProvider";
 
 const Login = () => {
   const [error, setError] = useState("");
