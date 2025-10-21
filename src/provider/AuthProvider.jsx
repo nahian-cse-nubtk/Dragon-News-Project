@@ -1,15 +1,18 @@
 import React, {  useEffect, useState } from "react";
 import app from "../firebase/firebase.config";
 import AuthContext from "../provider/AuthContext"
+import GoogleProvider from "./GoogleProvider"
 
 import {
   createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
   updateProfile,
 } from "firebase/auth";
+import GitHubProvider from "./GitHubProvider";
 
 const auth = getAuth(app);
 const AuthProvider = ({ children }) => {
@@ -27,6 +30,14 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
+  const signInWithGoogle=()=>{
+    return signInWithPopup(auth, GoogleProvider)
+  }
+  const signInWithGitHub=()=>{
+    GitHubProvider.addScope('user:email');
+
+    return signInWithPopup(auth,GitHubProvider)
+  }
 
   const updateUser = (updatedData) => {
     return updateProfile(auth.currentUser, updatedData);
@@ -55,6 +66,9 @@ const AuthProvider = ({ children }) => {
     loading,
     setLoading,
     updateUser,
+    signInWithGoogle,
+    signInWithGitHub
+
   };
   return(
    <AuthContext value={authData}>
